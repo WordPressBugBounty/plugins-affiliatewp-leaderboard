@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: AffiliateWP - Leaderboard
- * Plugin URI: https://affiliatewp.com/add-ons/official-free/leaderboard/
+ * Plugin URI: https://affiliatewp.com/addons/leaderboard/
  * Description: Display an affiliate leaderboard on your website
- * Author: Sandhills Development, LLC
- * Author URI: https://sandhillsdev.com
- * Version: 1.2
+ * Author: AffiliateWP
+ * Author URI: https://affiliatewp.com
+ * Version: 1.2.0
  * Text Domain: affiliatewp-leaderboard
  * Domain Path: languages
  *
@@ -22,9 +22,6 @@
  * along with AffiliateWP. If not, see <http://www.gnu.org/licenses/>.
  *
  * @package Leaderboard
- * @category Core
- * @author Andrew Munro
- * @version 1.2
  */
 
 // Exit if accessed directly.
@@ -165,7 +162,7 @@ class AffiliateWP_LB_Requirements_Check extends AffiliateWP_Requirements_Check_v
 	 * @return string Unmet requirements URL.
 	 */
 	protected function unmet_requirements_url() {
-		return 'https://docs.affiliatewp.com/article/2361-minimum-requirements-roadmaps';
+		return 'https://affiliatewp.com/docs/minimum-requirements-roadmap/';
 	}
 
 }

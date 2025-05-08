@@ -330,19 +330,12 @@ final class AffiliateWP_Leaderboard {
 	 *
 	 * @access      public
 	 * @since       1.0.0
+	 * @since       1.2.0 Removed Get more add-ons link.
 	 * @param       array $links The current links array
 	 * @param       string $file A specific plugin table entry
 	 * @return      array $links The modified links array
 	 */
 	public function plugin_meta( $links, $file ) {
-		if ( plugin_basename( $this->file ) === $file ) {
-				$plugins_link = array(
-						'<a title="' . __( 'Get more add-ons for AffiliateWP', 'affiliatewp-leaderboard' ) . '" href="http://affiliatewp.com/addons/" target="_blank">' . __( 'Get add-ons', 'affiliatewp-leaderboard' ) . '</a>',
-				);
-
-				$links = array_merge( $links, $plugins_link );
-		}
-
 		return $links;
 	}
 }

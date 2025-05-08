@@ -1,10 +1,10 @@
 === AffiliateWP - Leaderboard ===
-Contributors: sumobi, mordauk
-Tags: AffiliateWP, affiliate, Pippin Williamson, leaderboard, Andrew Munro, mordauk, pippinsplugins, sumobi, ecommerce, e-commerce, e commerce, selling, membership, referrals, marketing
+Contributors: sumobi, aubreypwd
+Tags: affiliatewp, leaderboard, top affiliates, affiliate performance, shortcode
 Requires at least: 5.2
-Tested up to: 6.0
-Requires PHP: 5.6
-Stable tag: 1.2
+Tested up to: 6.8
+Requires PHP: 7.4
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,7 +79,7 @@ OR you can just install it with WordPress by going to Plugins >> Add New >> and 
 
 == Changelog ==
 
-= 1.2 =
+= 1.2.0 =
 * New: Requires WordPress 5.2 minimum
 
 = 1.1 =
@@ -95,5 +95,5 @@ OR you can just install it with WordPress by going to Plugins >> Add New >> and 
 = 1.0.1 =
 * Fix: changed default orderby from "earnings" to "referrals" when no shortcode parameters are used.
 
-= 1.0 =
+= 1.0.0 =
 * Initial release
