@@ -5,9 +5,11 @@
  * Description: Display an affiliate leaderboard on your website
  * Author: AffiliateWP
  * Author URI: https://affiliatewp.com
- * Version: 1.2.0
+ * Version: 1.2.1
  * Text Domain: affiliatewp-leaderboard
  * Domain Path: languages
+ * License: GPL-2.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * AffiliateWP is distributed under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or

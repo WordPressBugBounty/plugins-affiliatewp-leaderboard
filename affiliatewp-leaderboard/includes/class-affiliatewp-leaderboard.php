@@ -35,7 +35,7 @@ final class AffiliateWP_Leaderboard {
 	 * @since 1.0
 	 * @var   string
 	 */
-	private $version = '1.2';
+	private $version = '';
 
 	/**
 	 * Main plugin file.
@@ -61,7 +61,8 @@ final class AffiliateWP_Leaderboard {
 	public static function instance( $file = null ) {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof AffiliateWP_Leaderboard ) ) {
 			self::$instance = new AffiliateWP_Leaderboard;
-			self::$instance->file = $file;
+			self::$instance->file    = $file;
+			self::$instance->version = get_plugin_data( self::$instance->file, false, false )['Version'] ?? '';
 
 			self::$instance->setup_constants();
 			self::$instance->load_textdomain();
@@ -85,7 +86,7 @@ final class AffiliateWP_Leaderboard {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden.
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'affiliatewp-leaderboard' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin’ huh?', 'affiliatewp-leaderboard' ), '1.0' );
 	}
 
 	/**
@@ -97,7 +98,7 @@ final class AffiliateWP_Leaderboard {
 	 */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden.
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'affiliatewp-leaderboard' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin’ huh?', 'affiliatewp-leaderboard' ), '1.0' );
 	}
 
 	/**
@@ -203,7 +204,7 @@ final class AffiliateWP_Leaderboard {
 	 */
 	public function affiliate_leaderboard( $atts, $content = null ) {
 
-		shortcode_atts(
+		$atts = shortcode_atts(
 			array(
 				'number'    => 10, // show 10 by default.
 				'referrals' => '',
@@ -215,9 +216,9 @@ final class AffiliateWP_Leaderboard {
 			'affiliate_leaderboard'
 		);
 
-		$content = $this->show_leaderboard( $atts );
-
-		return do_shortcode( $content );
+		// Return the rendered leaderboard as-is. Re-parsing it as shortcode input would execute
+		// any shortcode (or markup) an affiliate planted in their display name.
+		return $this->show_leaderboard( $atts );
 	}
 
 	/**
@@ -232,8 +233,9 @@ final class AffiliateWP_Leaderboard {
 
 		$defaults = apply_filters( 'affwp_leaderboard_defaults',
 			array(
-				'number'  => isset( $args['number'] ) ? $args['number'] : 10,
+				'number'  => isset( $args['number'] ) ? (int) $args['number'] : 10, // < 1 means all, as in get_affiliates().
 				'orderby' => isset( $args['orderby'] ) ? $args['orderby'] : 'referrals',
+				'status'  => 'active', // never publish pending/rejected applicants.
 			)
 		);
 
@@ -260,7 +262,7 @@ final class AffiliateWP_Leaderboard {
 			<li>
 			<?php
 				// affiliate name.
-				echo affiliate_wp()->affiliates->get_affiliate_name( $affiliate->affiliate_id );
+				echo esc_html( affiliate_wp()->affiliates->get_affiliate_name( $affiliate->affiliate_id ) );
 
 				$to_show = apply_filters(
 					'affwp_leaderboard_to_show',
@@ -294,14 +296,14 @@ final class AffiliateWP_Leaderboard {
 				$output = implode( '&nbsp;&nbsp;<span class="divider">|</span>&nbsp;&nbsp;', $output );
 
 				if ( $output ) {
-					echo '<p>' . $output . '</p>';
+					echo '<p>' . wp_kses_post( $output ) . '</p>';
 				}
 
 				?></li>
 		<?php endforeach; ?>
 		</ol>
 		<?php else : ?>
-			<?php _e( 'No registered affiliates', 'affiliatewp-leaderboard' ); ?>
+			<?php esc_html_e( 'No registered affiliates', 'affiliatewp-leaderboard' ); ?>
 		<?php endif; ?>
 
 

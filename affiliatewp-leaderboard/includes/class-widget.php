@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Leaderboard widget
  * 
@@ -26,11 +29,11 @@ class AffiliateWP_Leaderboard_Widget extends WP_Widget {
 		$title = apply_filters( 'widget_title', $instance[ 'title' ], $instance, $args['id'] );
 
         // Used by themes. Opens the widget
-        echo $args['before_widget'];
+        echo wp_kses_post( $args['before_widget'] );
 
         // Display the widget title
         if ( $title ) {
-            echo $args['before_title'] . $title . $args['after_title'];
+            echo wp_kses_post( $args['before_title'] ) . esc_html( $title ) . wp_kses_post( $args['after_title'] );
 		}
 
 		$defaults = array(
@@ -42,10 +45,10 @@ class AffiliateWP_Leaderboard_Widget extends WP_Widget {
 		);
 
     	// load the leaderboard
-        echo affiliatewp_leaderboard_load()->show_leaderboard( $defaults );
+        echo wp_kses_post( affiliatewp_leaderboard_load()->show_leaderboard( $defaults ) );
 
         // Used by themes. Closes the widget
-        echo $args['after_widget'];
+        echo wp_kses_post( $args['after_widget'] );
     }
 
    	/** @see WP_Widget::form */
@@ -64,32 +67,32 @@ class AffiliateWP_Leaderboard_Widget extends WP_Widget {
         
         <!-- Title -->
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php _e( 'Title:', 'affiliatewp-leaderboard' ) ?></label>
-            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo $instance['title']; ?>" />
+            <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'affiliatewp-leaderboard' ); ?></label>
+            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>" />
         </p>
 
         <!-- Number / Affiliates to show -->
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>"><?php _e( 'Affiliates To Show:', 'affiliatewp-leaderboard' ) ?></label>
-            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="text" value="<?php echo $instance['number']; ?>" />
+            <label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>"><?php esc_html_e( 'Affiliates To Show:', 'affiliatewp-leaderboard' ); ?></label>
+            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="text" value="<?php echo esc_attr( $instance['number'] ); ?>" />
         </p>
 
         <!-- Show Referrals -->
         <p>
             <input <?php checked( $instance['referrals'], 'on' ); ?> id="<?php echo esc_attr( $this->get_field_id( 'referrals' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'referrals' ) ); ?>" type="checkbox" />
-            <label for="<?php echo esc_attr( $this->get_field_id( 'referrals' ) ); ?>"><?php _e( 'Show Referrals', 'affiliatewp-leaderboard' ); ?></label>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'referrals' ) ); ?>"><?php esc_html_e( 'Show Referrals', 'affiliatewp-leaderboard' ); ?></label>
         </p>
 
          <!-- Show Visits -->
         <p>
             <input <?php checked( $instance['visits'], 'on' ); ?> id="<?php echo esc_attr( $this->get_field_id( 'visits' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'visits' ) ); ?>" type="checkbox" />
-            <label for="<?php echo esc_attr( $this->get_field_id( 'visits' ) ); ?>"><?php _e( 'Show Visits', 'affiliatewp-leaderboard' ); ?></label>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'visits' ) ); ?>"><?php esc_html_e( 'Show Visits', 'affiliatewp-leaderboard' ); ?></label>
         </p>
 
          <!-- Show Earnings -->
         <p>
             <input <?php checked( $instance['earnings'], 'on' ); ?> id="<?php echo esc_attr( $this->get_field_id( 'earnings' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'earnings' ) ); ?>" type="checkbox" />
-            <label for="<?php echo esc_attr( $this->get_field_id( 'earnings' ) ); ?>"><?php _e( 'Show Earnings', 'affiliatewp-leaderboard' ); ?></label>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'earnings' ) ); ?>"><?php esc_html_e( 'Show Earnings', 'affiliatewp-leaderboard' ); ?></label>
         </p>
 
         <!-- Orderby -->
@@ -97,10 +100,10 @@ class AffiliateWP_Leaderboard_Widget extends WP_Widget {
         $orderby = array( 'referrals', 'visits', 'earnings' );
         ?>
         <p>
-            <label for="<?php echo esc_attr( $this->get_field_id( 'orderby' ) ); ?>"><?php _e( 'Order By:', 'affiliatewp-leaderboard' ); ?></label>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'orderby' ) ); ?>"><?php esc_html_e( 'Order By:', 'affiliatewp-leaderboard' ); ?></label>
             <select class="widefat" name="<?php echo esc_attr( $this->get_field_name( 'orderby' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'orderby' ) ); ?>">
             <?php foreach ( $orderby as $order ) { ?>
-                <option <?php selected( $instance['orderby'], $order ); ?> value="<?php echo esc_attr( $order ); ?>"><?php echo ucfirst( $order ); ?></option>
+                <option <?php selected( $instance['orderby'], $order ); ?> value="<?php echo esc_attr( $order ); ?>"><?php echo esc_html( ucfirst( $order ) ); ?></option>
             <?php } ?>
             </select>
         </p>
@@ -111,12 +114,12 @@ class AffiliateWP_Leaderboard_Widget extends WP_Widget {
     public function update( $new_instance, $old_instance ) {
         $instance = $old_instance;
 
-        $instance['title']     = strip_tags( $new_instance['title'] );
+        $instance['title']     = wp_strip_all_tags( $new_instance['title'] );
         $instance['number']    = isset( $new_instance['number'] ) ? $new_instance['number'] : '';
         $instance['referrals'] = isset( $new_instance['referrals'] ) ? $new_instance['referrals'] : '';
         $instance['visits']    = isset( $new_instance['visits'] ) ? $new_instance['visits'] : '';
         $instance['earnings']  = isset( $new_instance['earnings'] ) ? $new_instance['earnings'] : '';
-        $instance['orderby']   = strip_tags( $new_instance['orderby'] );
+        $instance['orderby']   = wp_strip_all_tags( $new_instance['orderby'] );
        
         return $instance;
     } 
